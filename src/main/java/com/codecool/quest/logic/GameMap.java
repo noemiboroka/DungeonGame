@@ -1,15 +1,11 @@
 package com.codecool.quest.logic;
-import com.codecool.quest.logic.actors.Actor;
-import com.codecool.quest.logic.actors.Player;
-import com.codecool.quest.logic.actors.Skeleton;
-import com.codecool.quest.logic.Cell;
 
-import java.util.ArrayList;
+import com.codecool.quest.logic.actors.Player;
 
 public class GameMap {
     private int width;
     private int height;
-    public Cell[][] cells;
+    private Cell[][] cells;
 
     private Player player;
 
@@ -35,9 +31,6 @@ public class GameMap {
     public Player getPlayer() {
         return player;
     }
-
-
-
 
     public int getWidth() {
         return width;
