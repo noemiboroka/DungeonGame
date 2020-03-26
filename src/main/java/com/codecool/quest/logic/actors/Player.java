@@ -15,7 +15,6 @@ public class Player extends Actor {
             gameInventory.storeItem(cell.getItem());
             cell.setItem(null);
             cell.setType(CellType.FLOOR);
-
         }
     }
 
