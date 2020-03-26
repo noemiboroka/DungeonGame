@@ -1,13 +1,12 @@
 package com.codecool.quest;
 
-import com.codecool.quest.logic.Cell;
-import com.codecool.quest.logic.GameMap;
-import com.codecool.quest.logic.MapLoader;
+import com.codecool.quest.logic.*;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +20,12 @@ public class Main extends Application {
             map.getWidth() * Tiles.TILE_WIDTH,
             map.getHeight() * Tiles.TILE_WIDTH);
     GraphicsContext context = canvas.getGraphicsContext2D();
+
+    GameInventory gameInventory = InventoryLoader.loadInventory();
+    Canvas inventoryCanvas = new Canvas(
+            gameInventory.getWidth() * Tiles.TILE_WIDTH,
+            gameInventory.getHeight() * Tiles.TILE_WIDTH);
+    GraphicsContext inventoryContext = inventoryCanvas.getGraphicsContext2D();
     Label healthLabel = new Label();
 
     public static void main(String[] args) {
@@ -29,6 +34,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.setResizable(false);
+
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -36,12 +43,27 @@ public class Main extends Application {
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
 
+        ui.add(new Label("Inventory: "), 0, 2);
+        ui.add(inventoryCanvas, 0,3);
+
         BorderPane borderPane = new BorderPane();
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
 
+        Button collectButton = new Button("Collect item");
+        collectButton.setOnAction(actionEvent ->  {
+            map.getPlayer().collectItem(gameInventory, map.getPlayer().getCell());
+            refresh();
+            borderPane.requestFocus();
+        });
+
+        ui.add(collectButton, 0, 50);
+
         Scene scene = new Scene(borderPane);
+
+        borderPane.requestFocus();
+
         primaryStage.setScene(scene);
         refresh();
         scene.setOnKeyPressed(this::onKeyPressed);
@@ -79,11 +101,26 @@ public class Main extends Application {
                 Cell cell = map.getCell(x, y);
                 if (cell.getActor() != null) {
                     Tiles.drawTile(context, cell.getActor(), x, y);
+                } else if (cell.getItem() != null) {
+                    Tiles.drawTile(context, cell.getItem(), x, y);
                 } else {
                     Tiles.drawTile(context, cell, x, y);
                 }
             }
         }
+        inventoryContext.setFill(Color.BLACK);
+        inventoryContext.fillRect(0, 0, inventoryCanvas.getWidth(), inventoryCanvas.getHeight());
+        for (int x = 0; x < gameInventory.getWidth(); x++) {
+            for (int y = 0; y < gameInventory.getHeight(); y++) {
+                Cell cell = gameInventory.getCell(x, y);
+                if (cell.getItem() != null) {
+                    Tiles.drawTile(inventoryContext, cell.getItem(), x, y);
+                } else {
+                    Tiles.drawTile(inventoryContext, cell, x, y);
+                }
+            }
+        }
+
         healthLabel.setText("" + map.getPlayer().getHealth());
     }
 }
