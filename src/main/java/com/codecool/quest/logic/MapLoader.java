@@ -39,7 +39,9 @@ public class MapLoader {
                         case 'k':
                             cell.setType(CellType.SWORD);
                             new Sword(cell);
-                            System.out.println(cell);
+                            break;
+                        case 't':
+                            cell.setType(CellType.TREE);
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
