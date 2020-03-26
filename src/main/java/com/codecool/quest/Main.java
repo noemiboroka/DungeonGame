@@ -3,12 +3,15 @@ package com.codecool.quest;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.GameMap;
 import com.codecool.quest.logic.MapLoader;
+
 import javafx.application.Application;
+import javafx.event.*;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -35,6 +38,16 @@ public class Main extends Application {
 
         ui.add(new Label("Health: "), 0, 0);
         ui.add(healthLabel, 1, 0);
+
+        Label inventoryLabel = new Label("Inventory: ");
+        ui.add(inventoryLabel, 0, 2);
+
+       //Button pickUpButton = new Button("Pick up!");
+        //pickUpButton.setOnAction();
+
+
+        //ui.add(pickUpButton, 0,4);
+
 
         BorderPane borderPane = new BorderPane();
 

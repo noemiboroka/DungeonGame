@@ -3,14 +3,17 @@ package com.codecool.quest.logic.actors;
 import com.codecool.quest.logic.Cell;
 import com.codecool.quest.logic.CellType;
 import com.codecool.quest.logic.Drawable;
+import com.codecool.quest.logic.Inventory;
 
 public abstract class Actor implements Drawable {
     private Cell cell;
     private int health = 10;
+    private Inventory inventory;
 
     public Actor(Cell cell) {
         this.cell = cell;
         this.cell.setActor(this);
+        this.inventory = new Inventory();
     }
 
     public void move(int dx, int dy) {
