@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -36,6 +37,9 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setResizable(false);
 
+        Image thumbnail = new Image("/tiles.png");
+        primaryStage.getIcons().add(thumbnail);
+
         GridPane ui = new GridPane();
         ui.setPrefWidth(200);
         ui.setPadding(new Insets(10));
@@ -50,13 +54,18 @@ public class Main extends Application {
 
         borderPane.setCenter(canvas);
         borderPane.setRight(ui);
+        
 
         Button collectButton = new Button("Collect item");
         collectButton.setOnAction(actionEvent ->  {
             map.getPlayer().collectItem(gameInventory, map.getPlayer().getCell());
+
             refresh();
+
             borderPane.requestFocus();
+
         });
+
 
         ui.add(collectButton, 0, 50);
 

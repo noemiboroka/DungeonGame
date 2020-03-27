@@ -39,7 +39,17 @@ public class MapLoader {
                         case 'k':
                             cell.setType(CellType.SWORD);
                             new Sword(cell);
-                            System.out.println(cell);
+                            break;
+                        case 't':
+                            cell.setType(CellType.TREE);
+                            break;
+                        case 'o':
+                            cell.setType(CellType.OPENER);
+                            new Opener(cell);
+                            break;
+                        case 'd':
+                            cell.setType(CellType.DOOR);
+                            new Door(cell);
                             break;
                         case '@':
                             cell.setType(CellType.FLOOR);
